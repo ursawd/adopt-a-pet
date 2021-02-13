@@ -22,7 +22,7 @@
 
         a. What does your database schema look like?
 
-![schema ERD](imgs\markdown\dbschema.jpg)
+![schema ERD](\imgs\markdown\dbschema.jpg)
 
         b. What kinds of issues might you run into with your API? 
 
@@ -47,7 +47,7 @@
 
         e. What will the user flow look like?
 
-![User Flow](imgs\markdown\userflow.jpg)
+![User Flow](\imgs\markdown\userflow.jpg)
 
         f. What features make your site more than CRUD? Do you have any stretch goals?
 
