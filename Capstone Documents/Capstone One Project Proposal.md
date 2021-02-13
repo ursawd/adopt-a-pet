@@ -47,7 +47,7 @@
 
         e. What will the user flow look like?
 
-![User Flow](\imgs\markdown\userflow.jpg)
+![User Flow](userflow.jpg)
 
         f. What features make your site more than CRUD? Do you have any stretch goals?
 
