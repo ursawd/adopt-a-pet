@@ -22,7 +22,7 @@
 
         a. What does your database schema look like?
 
-![schema ERD](\imgs\markdown\dbschema.jpg)
+![schema ERD](dbschema.jpg)
 
         b. What kinds of issues might you run into with your API? 
 
