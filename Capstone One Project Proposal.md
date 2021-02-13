@@ -42,3 +42,15 @@
         * Add evaluation to animal in “favorites” list
         * Edit evaluation of animal in “favorites” list
         * Delete evaluation of animal in “favorites” list
+        * Delete animal from “favorites” list
+        * Display information about animal offering animal
+
+        e. What will the user flow look like?
+
+![User Flow](imgs\markdown\userflow.jpg)
+
+        f. What features make your site more than CRUD? Do you have any stretch goals?
+
+        The selection of a pet for inclusion in the “favorites” list and the ability to provide an evaluation of the desirability / suitability of the potential pet extends this website beyond simple CRUD. The Petfinder API will be queried based on visitor requirements and return animals meeting visitor criteria. These animals would be stored ( if interesting enough) in the website database (along with evaluation information) and used to compare potential pets so that the visitor could make a decision to adopt a particular animal as a pet.
+
+        Future goals could be the inclusion of more information from the API particularly about the organization that is offering the animal for adoption.
