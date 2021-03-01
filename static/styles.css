@@ -1,0 +1,12 @@
+p {
+    font-family: "Raleway", sans-serif;
+}
+.jumbotron {
+    background-image: url(/static/imgs/adoptapet.jpg);
+    background-size: cover;
+    height: 45vh;
+    font-family: "Truculenta", sans-serif;
+}
+.jumbotron h1 {
+    font-size: 4rem;
+}
