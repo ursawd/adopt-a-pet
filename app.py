@@ -1,8 +1,8 @@
 from flask import Flask, request, redirect, render_template, flash, session
 from models import db, connect_db, User, Pet
-import requests, json
-from libs.petlib import get_API_response
+from libs.petlib import get_API_response, get_random_pet
 from forms import RegisterForm, LoginForm, PetForm
+import requests, json, html
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///adopt-a-pet"
@@ -21,7 +21,14 @@ app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 #
 @app.route("/")
 def home():
-    return render_template("home.html")
+    # get random pet for pet to the day display
+    response = get_random_pet()
+
+    # "description" contains html entities such as &amp#39; (')
+    # this changes them to display proper character
+    response["animal"]["description"] = html.unescape(response["animal"]["description"])
+
+    return render_template("home.html", response=response)
 
 
 # ######################################################################
@@ -42,7 +49,6 @@ def user_login():
         # if username and password match, store username, see to protected page(s)
         if user:  # contains found user object or False
             # set session data key "username" to contain logged in username
-
             session["username"] = user.username
             return redirect("/")
         else:
@@ -91,9 +97,9 @@ def register():
             session["username"] = user.username
 
         # provide user confirmation registration successful
-        flash(f" Added user {username}")
+        flash(f" Added user {username}")  # todo not implemented yet
         # redirect to protected page(s)
-        return redirect("/")
+        return redirect("/")  # todo needs page defined
     else:  # if here: validation error or GET request
         return render_template("register.html", form=form)
 

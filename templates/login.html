@@ -1,14 +1,17 @@
 {% extends "base.html" %} {% block content %}
-<h3>Login</h3>
-<form class="mt-3" id="register-form" method="POST">
-    {{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
-    "hidden" %}
-    <p>
-        {{ field.label }} {{ field }} {% for error in field.errors %} {{ error
-        }} {% endfor %}
-    </p>
-    {% endfor %}
-    <button type="submit">Submit</button>
-</form>
-
+<div id="loginform" class="col-4 container bg-info">
+    <h3>Login</h3>
+    <form class="mt-3" id="register-form" method="POST">
+        {{ form.hidden_tag() }} {% for field in form if field.widget.input_type
+        != "hidden" %}
+        <div class="form-group">
+            <p>
+                {{ field.label }} {{ field(class_='form-control') }} {% for
+                error in field.errors %} {{ error }} {% endfor %}
+            </p>
+        </div>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+</div>
 {% endblock %}

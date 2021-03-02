@@ -1,4 +1,5 @@
 import requests, json
+from random import randint
 
 # ###########################################################################
 #
@@ -30,7 +31,7 @@ def get_token():
 
 # ###########################################################################
 #
-def get_API_response(URL, params):
+def get_API_response(URL, params=None):
     """Get API info.
     ARGUMENTS:
         PARAMS:
@@ -53,7 +54,11 @@ def get_API_response(URL, params):
     }
 
     # Request info from API
-    r = requests.get(URL, headers=headers, params=params)
+    if params == None:
+        r = requests.get(URL, headers=headers)
+    else:
+        r = requests.get(URL, headers=headers, params=params)
+
     # check response for errors
     if r.status_code != 200:
         return None
@@ -74,5 +79,19 @@ def get_API_response(URL, params):
 
 # # response will contain API repsonse for supplied params and URL
 # response = get_API_response(URL, params)
+# ###########################################################################
+#
+def get_random_pet():
+    """Return response object of one random pet from API"""
+    while True:
+        id = randint(50000000, 51000000)
+        # URL = f"https://api.petfinder.com/v2/animals/50703302"
+        URL = f"https://api.petfinder.com/v2/animals/{id}"
+        response = get_API_response(URL)
+        if response != None:
+            break
+    return response
+
+
 # ###########################################################################
 #

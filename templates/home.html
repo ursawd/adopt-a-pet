@@ -1,7 +1,50 @@
 {% extends 'base.html' %} {% block content %}
 <!-- Insert code block here -->
-<div class="container">
-    <h1>Pet of the day!</h1>
-    <!--! need pet of the day -->
+<div id="container" class="container d-flex">
+    <!-- Left column - Pet of the day -->
+    <div class="col-6">
+        <h3>Featured Pet!</h3>
+        <!-- pet card definition -->
+        <div class="card w-75">
+            <img
+                class="card-img-top"
+                src="{{response['animal']['photos'][0]['large']}}"
+                alt="Card image cap"
+            />
+            <div class="card-body">
+                <h5 class="card-title">{{response['animal']['name']}}</h5>
+                <p class="card-text">{{response['animal']['description']}}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{response['animal']['age']}}</li>
+                <li class="list-group-item">
+                    {{response['animal']['gender']}}
+                </li>
+                <li class="list-group-item">
+                    {{response['animal']['breeds']['primary']}}
+                </li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
+        <!-- end pet card definition -->
+    </div>
+    <!-- right column. text -->
+    <div id="home-rt-col" class="col-6">
+        <h5 class="text-info mt-5 ml-4">
+            <ul>
+                <li>Search for a pet to adopt for your family.</li>
+                <li>
+                    Evaluate pets that catch your eye and take notes about that
+                    pet.
+                </li>
+                <li>Limit the distance used to display pets.</li>
+                <li>Display pets you have notes on to help make your pick.</li>
+                <li>You must Register / Login to display pets.</li>
+            </ul>
+        </h5>
+    </div>
 </div>
 {% endblock %}

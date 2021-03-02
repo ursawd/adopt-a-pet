@@ -4,7 +4,8 @@ p {
 .jumbotron {
     background-image: url(/static/imgs/adoptapet.jpg);
     background-size: cover;
-    height: 55vh;
+    background-position: 0% 70%;
+    height: 50vh;
     font-family: "Truculenta", sans-serif;
 }
 .jumbotron h1 {
