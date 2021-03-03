@@ -1,7 +1,7 @@
 from flask import Flask, request, redirect, render_template, flash, session
 from models import db, connect_db, User, Pet
 from libs.petlib import get_API_response, get_random_pet
-from forms import RegisterForm, LoginForm, PetForm
+from forms import RegisterForm, LoginForm, PetForm, SearchForm
 import requests, json, html
 
 app = Flask(__name__)
@@ -23,10 +23,10 @@ app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 def home():
     # get random pet for pet to the day display
     response = get_random_pet()
-
+    session["response"] = response
     # "description" contains html entities such as &amp#39; (')
     # this changes them to display proper character
-    response["animal"]["description"] = html.unescape(response["animal"]["description"])
+    # response["animal"]["description"] = html.unescape(response["animal"]["description"])#? moved to petlib.py
 
     return render_template("home.html", response=response)
 
@@ -50,7 +50,7 @@ def user_login():
         if user:  # contains found user object or False
             # set session data key "username" to contain logged in username
             session["username"] = user.username
-            return redirect("/")
+            return redirect("/search")
         else:
             # inform user of bad input
             form.username.errors = ["Invalid username / password"]
@@ -111,4 +111,21 @@ def logout():
     """Log out user"""
     if "username" in session:
         session.pop("username")
+        session.pop("response")
     return redirect("/")
+
+
+@app.route("/search")
+def search():
+    """Display search options"""
+    # create form
+    form = SearchForm()
+    # check if valid  submitted, this check false if GET
+    # if form.validate_on_submit():
+    #     # get form values
+    #     username = form.username.data
+    #     password = form.password.data
+    #     email = form.email.data
+    #     first_name = form.first_name.data
+    #     last_name = form.last_name.data
+    return render_template("search.html", response=session["response"], form=form)

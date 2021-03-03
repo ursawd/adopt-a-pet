@@ -1,18 +1,55 @@
 {% extends 'base.html' %} {% block content %}
 <!-- Insert code block here -->
-<div id="loginform" class="col-4 container">
-    <h3>Enter pet criteria</h3>
-    <form class="mt-3" id="search-form" method="POST">
-        {{ form.hidden_tag() }} {% for field in form if field.widget.input_type
-        != "hidden" %}
-        <div class="form-group">
-            <p>
-                {{ field.label }} {{ field(class_='form-control') }} {% for
-                error in field.errors %} {{ error }} {% endfor %}
-            </p>
+<div id="container" class="container d-flex">
+    <!-- Left column - Pet of the day -->
+    <div class="col-6">
+        <h3>Featured Pet!</h3>
+        <!-- pet card definition -->
+        <div class="card w-75">
+            <img
+                class="card-img-top"
+                src="{{response['animal']['photos'][0]['large']}}"
+                alt="Card image cap"
+            />
+            <div class="card-body">
+                <h5 class="card-title">{{response['animal']['name']}}</h5>
+                <p class="card-text">{{response['animal']['description']}}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item p-1">
+                    {{response['animal']['age']}}
+                </li>
+                <li class="list-group-item p-1">
+                    {{response['animal']['gender']}}
+                </li>
+                <li class="list-group-item p-1">
+                    {{response['animal']['breeds']['primary']}}
+                </li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
         </div>
-        {% endfor %}
-        <button type="submit">Submit</button>
-    </form>
+        <!-- end pet card definition -->
+    </div>
+    <!-- right column. text -->
+    <div id="home-rt-col" class="col-6">
+        <div id="loginform" class="col-10 container">
+            <h3>Search for a pet</h3>
+            <form class="mt-3" id="register-form" method="POST">
+                {{ form.hidden_tag() }} {% for field in form if
+                field.widget.input_type != "hidden" %}
+                <div class="form-group">
+                    <p>
+                        {{ field.label }} {{ field(class_='form-control') }} {%
+                        for error in field.errors %} {{ error }} {% endfor %}
+                    </p>
+                </div>
+                {% endfor %}
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

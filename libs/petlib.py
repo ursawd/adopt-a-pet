@@ -1,4 +1,4 @@
-import requests, json
+import requests, json, html
 from random import randint
 
 # ###########################################################################
@@ -84,11 +84,15 @@ def get_API_response(URL, params=None):
 def get_random_pet():
     """Return response object of one random pet from API"""
     while True:
-        id = randint(50000000, 51000000)
+        id = randint(50000000, 51000000)  # estimated range for pet id's
         # URL = f"https://api.petfinder.com/v2/animals/50703302"
         URL = f"https://api.petfinder.com/v2/animals/{id}"
         response = get_API_response(URL)
         if response != None:
+            # "description" contains html entities such as &amp#39; (')
+            # this changes them to display proper character
+            if response["animal"]["description"] != "":
+                response["animal"]["description"] = html.unescape(response["animal"]["description"])
             break
     return response
 

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextField, TextAreaField
+from wtforms import StringField, PasswordField, TextField, TextAreaField, SelectField
 from wtforms.validators import InputRequired
 
 
@@ -18,3 +18,9 @@ class LoginForm(FlaskForm):
 
 class PetForm(FlaskForm):
     peteval = TextAreaField("Evaluation", render_kw={"rows": 5}, validators=[InputRequired()])
+
+
+class SearchForm(FlaskForm):
+    pettype = SelectField(u"Pet Type", choices=[("Dog", "Dog"), ("Cat", "Cat"), ("Bird", "Bird"), ("Rabbit", "Rabbit")])
+    gender = SelectField(u"Gender", choices=[("Male", "Male"), ("Female", "Female")])
+    distance = SelectField(u"Distance", choices=[("25", "25"), ("50", "50"), ("75", "75"), ("100", "100")])
