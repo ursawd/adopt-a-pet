@@ -99,7 +99,7 @@ def register():
         # provide user confirmation registration successful
         flash(f" Added user {username}")  # todo not implemented yet
         # redirect to protected page(s)
-        return redirect("/")  # todo needs page defined
+        return redirect("/search")
     else:  # if here: validation error or GET request
         return render_template("register.html", form=form)
 

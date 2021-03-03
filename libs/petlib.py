@@ -91,10 +91,28 @@ def get_random_pet():
         if response != None:
             # "description" contains html entities such as &amp#39; (')
             # this changes them to display proper character
-            if response["animal"]["description"] != "":
+            if response["animal"]["description"] is not None:
                 response["animal"]["description"] = html.unescape(response["animal"]["description"])
+                # !
+                org_web_site = get_org(response)
+                response["animal"]["website"] = org_web_site
             break
     return response
+
+
+# ###########################################################################
+#
+def get_org(resp):
+    org_string = resp["animal"]["_links"]["organization"]["href"]
+    URL = f"https://api.petfinder.com{org_string}"
+
+    # get specific organization info
+    response = get_API_response(URL)
+    # check if organization has own website, if not use petfinder website info
+    if response["organization"]["website"] is None:
+        return response["organization"]["url"]
+    else:
+        return response["organization"]["website"]
 
 
 # ###########################################################################

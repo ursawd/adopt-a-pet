@@ -35,9 +35,9 @@
     </div>
     <!-- right column. text -->
     <div id="home-rt-col" class="col-6">
-        <div id="loginform" class="col-10 container">
+        <div id="searchform" class="col-10 container">
             <h3>Search for a pet</h3>
-            <form class="mt-3" id="register-form" method="POST">
+            <form class="mt-3" id="search-form">
                 {{ form.hidden_tag() }} {% for field in form if
                 field.widget.input_type != "hidden" %}
                 <div class="form-group">

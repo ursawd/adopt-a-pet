@@ -9,7 +9,7 @@
         <div class="card w-75">
             <img
                 class="card-img-top"
-                src="{{response['animal']['photos'][0]['large']}}"
+                src="{{response['animal']['photos'][0]['medium']}}"
                 alt="Card image cap"
             />
             <div class="card-body">
@@ -17,17 +17,23 @@
                 <p class="card-text">{{response['animal']['description']}}</p>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{response['animal']['age']}}</li>
-                <li class="list-group-item">
+                <li class="list-group-item p-1">
+                    {{response['animal']['age']}}
+                </li>
+                <li class="list-group-item p-1">
                     {{response['animal']['gender']}}
                 </li>
-                <li class="list-group-item">
+                <li class="list-group-item p-1">
                     {{response['animal']['breeds']['primary']}}
                 </li>
             </ul>
             <div class="card-body">
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <a
+                    href="{{response['animal']['website']}}"
+                    target="_blank"
+                    class="card-link"
+                    >Adoption Info</a
+                >
             </div>
         </div>
         <!-- end pet card definition -->
