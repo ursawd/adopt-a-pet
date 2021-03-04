@@ -73,7 +73,7 @@ def register():
         email = form.email.data
         first_name = form.first_name.data
         last_name = form.last_name.data
-
+        # ! check for username in database
         # generate hashed password with bcrypt
         # return User instance with just username and hashed password
         user = User.register(username, password)
@@ -112,17 +112,36 @@ def logout():
     return redirect("/")
 
 
-@app.route("/search")
+# ######################################################################
+#
+@app.route("/search", methods=["GET", "POST"])
 def search():
     """Display search options"""
+
     # create form
     form = SearchForm()
-    # check if valid  submitted, this check false if GET
-    # if form.validate_on_submit():
-    #     # get form values
-    #     username = form.username.data
-    #     password = form.password.data
-    #     email = form.email.data
-    #     first_name = form.first_name.data
-    #     last_name = form.last_name.data
+
+    # # check if valid  submitted, this check false if GET
+    if form.validate_on_submit():
+
+        # get form values
+        pet_type = form.pettype.data
+        gender = form.gender.data
+        distance = form.distance.data
+        location = form.location.data
+
+        params = (
+            ("type", pet_type),
+            ("gender", gender),
+            ("distance", distance),
+            ("location", location),
+        )
+        url = "https://api.petfinder.com/v2/animals"
+        resp = get_API_response(url, params)
+
+        return render_template("displaypets.html", resp=resp)
     return render_template("search.html", response=session["response"], form=form)
+
+
+# ######################################################################
+#

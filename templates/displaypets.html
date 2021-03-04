@@ -1,0 +1,52 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Insert code block here -->
+<!-- todo insert nav buttons, search criteria -->
+<div class="container d-flex flex-row-reverse">
+    <p class="lead mt-1 p-1">
+        <a class="btn btn-info btn-lg" href="/search" role="button"
+            >New Search</a
+        >
+    </p>
+</div>
+
+<!-- Start Loop -->
+<div id="container" class="container d-flex flex-row flex-wrap">
+    {% for animal in resp['animals'] %}
+
+    <div class="col-4">
+        <!-- pet card definition -->
+        <div class="card w-100">
+            <!-- PHOTO?{{animal['photos'][0]['small']}} -->
+            <img
+                class="card-img-top"
+                src="{{animal['photos'][0]['small']}}"
+                alt="Card image cap"
+            />
+            <div class="card-body">
+                <h5 class="card-title">{{animal['name']}}</h5>
+                <p class="card-text">{{animal['description']}}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item p-1">{{animal['age']}}</li>
+                <li class="list-group-item p-1">{{animal['gender']}}</li>
+                <li class="list-group-item p-1">
+                    {{animal['breeds']['primary']}}
+                </li>
+
+                <li class="list-group-item p-1">
+                    {{animal["contact"]["address"]["city"]}},
+                    {{animal["contact"]["address"]["state"]}}
+                </li>
+            </ul>
+            <div class="card-body">
+                <a href="{{animal['url']}}" target="_blank" class="card-link"
+                    >Adoption Info</a
+                >
+            </div>
+        </div>
+        <!-- end pet card definition -->
+    </div>
+    {%endfor%}
+    <!-- End Loop -->
+</div>
+{% endblock content %}
