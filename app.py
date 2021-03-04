@@ -24,9 +24,6 @@ def home():
     # get random pet for pet to the day display
     response = get_random_pet()
     session["response"] = response
-    # "description" contains html entities such as &amp#39; (')
-    # this changes them to display proper character
-    # response["animal"]["description"] = html.unescape(response["animal"]["description"])#? moved to petlib.py
 
     return render_template("home.html", response=response)
 

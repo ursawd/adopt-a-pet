@@ -88,12 +88,12 @@ def get_random_pet():
         # URL = f"https://api.petfinder.com/v2/animals/50703302"
         URL = f"https://api.petfinder.com/v2/animals/{id}"
         response = get_API_response(URL)
+
         if response != None:
             # "description" contains html entities such as &amp#39; (')
             # this changes them to display proper character
             if response["animal"]["description"] is not None:
                 response["animal"]["description"] = html.unescape(response["animal"]["description"])
-                # !
                 org_web_site = get_org(response)
                 response["animal"]["website"] = org_web_site
             break
@@ -117,3 +117,20 @@ def get_org(resp):
 
 # ###########################################################################
 #
+# def get_random_pet():
+#     """Return response object of one random pet from API"""
+#     while True:
+#         id = randint(50000000, 51000000)  # estimated range for pet id's
+#         # URL = f"https://api.petfinder.com/v2/animals/50703302"
+#         URL = f"https://api.petfinder.com/v2/animals/{id}"
+#         response = get_API_response(URL)
+
+#         if response != None:
+#             # "description" contains html entities such as &amp#39; (')
+#             # this changes them to display proper character
+#             if response["animal"]["description"] is not None:
+#                 response["animal"]["description"] = html.unescape(response["animal"]["description"])
+#                 org_web_site = get_org(response)
+#                 response["animal"]["website"] = org_web_site
+#             break
+#     return response

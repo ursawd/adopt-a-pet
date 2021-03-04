@@ -9,7 +9,7 @@
         <div class="card w-75">
             <img
                 class="card-img-top"
-                src="{{response['animal']['photos'][0]['medium']}}"
+                src="{{response['animal']['photos'][0]['small']}}"
                 alt="Card image cap"
             />
             <div class="card-body">
@@ -25,6 +25,11 @@
                 </li>
                 <li class="list-group-item p-1">
                     {{response['animal']['breeds']['primary']}}
+                </li>
+
+                <li class="list-group-item p-1">
+                    {{response["animal"]["contact"]["address"]["city"]}},
+                    {{response["animal"]["contact"]["address"]["state"]}}
                 </li>
             </ul>
             <div class="card-body">
@@ -52,6 +57,16 @@
                 <li>You must Register / Login to display pets.</li>
             </ul>
         </h5>
+        <br />
+        <br />
+        <div class="ml-5 mt-5 pt-5">
+            <iframe
+                width="470"
+                height="365"
+                src="https://www.youtube.com/embed/mAVFwQUH8BU"
+            >
+            </iframe>
+        </div>
     </div>
 </div>
 {% endblock %}

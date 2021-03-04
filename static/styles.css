@@ -11,3 +11,9 @@ p {
 .jumbotron h1 {
     font-size: 5rem;
 }
+
+.card-img-top {
+    width: 100%;
+    height: 25vw;
+    object-fit: cover;
+}
