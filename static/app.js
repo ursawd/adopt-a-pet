@@ -1,18 +1,10 @@
-// $("#search-form").submit(function (e) {
-//     e.preventDefault();
-//     console.log("ON SUBMIT FORM");
+$(".note-link").click(function (e) {
+    // get the element clicked
+    let el = e.target;
+    // get the id data attribute from the element
+    let apiid = el.dataset.id;
+    // use the retrieved id to get the value of the text area
+    note = $(`#${apiid}`).val();
 
-//     getSearchResults();
-// });
-// function getSearchResults() {
-//     console.log($("#pettype").val());
-//     console.log($("#gender").val());
-//     console.log($("#distance").val());
-
-//     let type = $("#pettype").val();
-//     let gender = $("#gender").val();
-//     let distance = parseInt($("#distance").val());
-//     let location = "32162";
-
-//     return;
-// }
+    console.log(note);
+});

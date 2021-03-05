@@ -46,7 +46,7 @@
             </ul>
             <textarea
                 name=""
-                id=""
+                id="{{animal['id']}}"
                 cols="30"
                 rows="2"
                 class="form-control"
@@ -57,7 +57,12 @@
                     >Adoption Info</a
                 >
                 <!-- ? In progress-->
-                <a id="petnote{{animal['id']}}" class="card-link">Save Note</a>
+                <a
+                    id="petnote{{animal['id']}}"
+                    data-id="{{animal['id']}}"
+                    class="card-link note-link"
+                    >Save Note</a
+                >
 
                 <!-- ? End-->
             </div>

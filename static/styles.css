@@ -17,3 +17,6 @@ p {
     height: 25vw;
     object-fit: cover;
 }
+.note-link {
+    cursor: pointer;
+}
