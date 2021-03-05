@@ -2,9 +2,15 @@
 <!-- Insert code block here -->
 <!-- todo insert nav buttons, search criteria -->
 <div class="container d-flex flex-row-reverse">
-    <p class="lead mt-1 p-1">
+    <p class="lead">
         <a class="btn btn-info btn-lg" href="/search" role="button"
             >New Search</a
+        >
+    </p>
+
+    <p class="lead">
+        <a class="btn btn-info btn-lg mr-3" href="/shownotes" role="button"
+            >Show Pets With Notes</a
         >
     </p>
 </div>
@@ -15,13 +21,13 @@
 
     <div class="col-4">
         <!-- pet card definition -->
-        <div class="card w-100">
-            <!-- PHOTO?{{animal['photos'][0]['small']}} -->
+        <div class="card w-100" mb-5>
             <img
                 class="card-img-top"
                 src="{{animal['photos'][0]['small']}}"
                 alt="Card image cap"
             />
+
             <div class="card-body">
                 <h5 class="card-title">{{animal['name']}}</h5>
                 <p class="card-text">{{animal['description']}}</p>
@@ -38,10 +44,22 @@
                     {{animal["contact"]["address"]["state"]}}
                 </li>
             </ul>
+            <textarea
+                name=""
+                id=""
+                cols="30"
+                rows="2"
+                class="form-control"
+                placeholder="Enter notes here"
+            ></textarea>
             <div class="card-body">
                 <a href="{{animal['url']}}" target="_blank" class="card-link"
                     >Adoption Info</a
                 >
+                <!-- ? In progress-->
+                <a id="petnote{{animal['id']}}" class="card-link">Save Note</a>
+
+                <!-- ? End-->
             </div>
         </div>
         <!-- end pet card definition -->
