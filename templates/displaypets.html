@@ -3,13 +3,11 @@
 <!-- todo insert nav buttons, search criteria -->
 <div class="container d-flex flex-row-reverse">
     <p class="lead">
-        <a class="btn btn-info btn-lg" href="/search" role="button"
-            >New Search</a
-        >
+        <a class="btn btn-info" href="/search" role="button">New Search</a>
     </p>
 
     <p class="lead">
-        <a class="btn btn-info btn-lg mr-3" href="/shownotes" role="button"
+        <a class="btn btn-info mr-3" href="/shownotes" role="button"
             >Show Pets With Notes</a
         >
     </p>
@@ -19,7 +17,7 @@
 <div id="container" class="container d-flex flex-row flex-wrap">
     {% for animal in resp['animals'] %}
 
-    <div class="col-4">
+    <div class="col-md-4 col-sm-6">
         <!-- pet card definition -->
         <div class="card w-100" mb-5>
             <img
