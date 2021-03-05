@@ -145,3 +145,40 @@ def search():
 
 # ######################################################################
 #
+@app.route("/postnote", methods=["POST"])
+def postnote():
+    """Add user note to db"""
+    # try to get record matching pet apiid
+    query_resp = Pet.query.filter(Pet.api_id == request.json["apiid"]).first()
+
+    # if entry does not exist then query_resp = None, create / add record to db
+    if query_resp is None:
+        query_resp = Pet(
+            username=session["username"],
+            peteval=request.json["note"],
+            api_id=request.json["apiid"],
+        )
+    else:
+        # if entry exists in db, make changes to peteval
+        query_resp.peteval = request.json["note"]
+
+    # add new record -or- update existing record
+    db.session.add(query_resp)
+    db.session.commit()
+
+    # return 204 NO CONTENT
+    return "", 204
+
+
+# ######################################################################
+#
+@app.route("/shownotes")
+def shownotes():
+    """ display pet cards with user notes"""
+    # get username of current user
+    username = session["username"]
+    # get all matching records to user name out of pets table
+    user = User.query.filter(username == username).first()
+    for pet in user.pets:
+        print(">>>>>>>>>>", pet.api_id, flush=True)
+    return "", 204

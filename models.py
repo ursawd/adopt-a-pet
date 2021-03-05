@@ -51,11 +51,9 @@ class Pet(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     api_id = db.Column(db.Integer, nullable=False)
-    petname = db.Column(db.String(20), nullable=False)
-    petphoto = db.Column(db.String(200), nullable=False)
     peteval = db.Column(db.Text, nullable=False)
     username = db.Column(db.String(20), db.ForeignKey("users.username"))
 
     def __repr__(self):
         s = self
-        return f"<User {s.id} {s.spi_id} {s.petname} {s.petphoto} {s.peteval}>"
+        return f"<Pet {s.id} {s.api_id} {s.peteval} {s.username}>"
