@@ -129,17 +129,19 @@ def search():
         gender = form.gender.data
         distance = form.distance.data
         location = form.location.data
-
+        # params for api call
         params = (
             ("type", pet_type),
             ("gender", gender),
             ("distance", distance),
             ("location", location),
         )
+        # petfinder api search request
         url = "https://api.petfinder.com/v2/animals"
         resp = get_API_response(url, params)
 
         return render_template("displaypets.html", resp=resp)
+
     return render_template("search.html", response=session["response"], form=form)
 
 
@@ -190,7 +192,6 @@ def shownotes():
         animal["eval"] = pet.peteval
 
         # place record in list
-        petList.append(animal)
-        # print(">>>>>>>>>>PL", petList[0]["animal"]["name"], flush=True)
+        petList.append(animal)  # access to petList => petList[0]["animal"]["name"]
 
     return render_template("/displaynotes.html", resp=petList)

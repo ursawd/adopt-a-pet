@@ -17,7 +17,7 @@
 <div id="container" class="container d-flex flex-row flex-wrap">
     {% for pet in resp %}
 
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-4 col-sm-6 my-4">
         <!-- pet card definition -->
         <div class="card w-100" mb-5>
             <img
@@ -53,9 +53,13 @@
 {{pet.eval}}</textarea
             >
             <small
-                ><p>Make changes as necessary and click "Save Note"</p></small
+                ><p class="text-info">
+                    Make changes as necessary and click "Save Note"
+                </p></small
             >
-
+            <!-- location of message bar -->
+            <div id="message-wrap"></div>
+            <!--  -->
             <div class="card-body">
                 <a
                     href="{{pet.animal['url']}}"
@@ -69,6 +73,7 @@
                     class="card-link note-link"
                     >Save Note</a
                 >
+                <a href="/delete-note"><i class="fas fa-trash ml-5"></i></a>
             </div>
         </div>
         <!-- end pet card definition -->

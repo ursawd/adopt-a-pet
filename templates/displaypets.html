@@ -16,9 +16,9 @@
 <div id="container" class="container d-flex flex-row flex-wrap">
     {% for animal in resp['animals'] %}
 
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-4 col-sm-6 my-4">
         <!-- pet card definition -->
-        <div class="card w-100" mb-5>
+        <div class="card w-100">
             <img
                 class="card-img-top"
                 src="{{animal['photos'][0]['large']}}"
@@ -50,8 +50,14 @@
                 placeholder="Enter notes here"
             ></textarea>
             <small
-                ><p>Make changes as necessary and click "Save Note"</p></small
+                ><p class="text-info">
+                    Make changes as necessary and click "Save Note"
+                </p></small
             >
+            <!-- location of message bar -->
+            <div id="message-wrap"></div>
+            <!--  -->
+
             <div class="card-body">
                 <a href="{{animal['url']}}" target="_blank" class="card-link"
                     >Adoption Info</a

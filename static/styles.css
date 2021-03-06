@@ -20,3 +20,12 @@ p {
 .note-link {
     cursor: pointer;
 }
+/* message bar styling, executed by js func. */
+
+.message-bar {
+    background: #13849644;
+    border: 1px solid #138496;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
