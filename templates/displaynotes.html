@@ -1,9 +1,10 @@
 {% extends 'base.html' %} {% block content %}
 <!-- Insert code block here -->
-<div class="container d-flex flex-row-reverse">
+<div class="container d-flex flex-row-reverse justify-content-between">
     <p class="lead">
         <a class="btn btn-info" href="/search" role="button">New Search</a>
     </p>
+    <h3>Pets with notes</h3>
 
     <!-- <p class="lead">
         <a class="btn btn-info mr-3" href="/shownotes" role="button"
@@ -48,7 +49,13 @@
                 rows="2"
                 class="form-control"
                 placeholder="Enter notes here"
-            ></textarea>
+            >
+{{pet.eval}}</textarea
+            >
+            <small
+                ><p>Make changes as necessary and click "Save Note"</p></small
+            >
+
             <div class="card-body">
                 <a
                     href="{{pet.animal['url']}}"
@@ -56,15 +63,12 @@
                     class="card-link"
                     >Adoption Info</a
                 >
-                <!-- ? In progress-->
                 <a
                     id="petnote{{pet.animal['id']}}"
                     data-id="{{pet.animal['id']}}"
                     class="card-link note-link"
                     >Save Note</a
                 >
-
-                <!-- ? End-->
             </div>
         </div>
         <!-- end pet card definition -->
