@@ -178,15 +178,16 @@ def shownotes():
     petList = []
     # get username of current user
     username = session["username"]
+    breakpoint()
     # get all matching records to user name out of pets table
-    user = User.query.filter(username == username).first()
+    user = User.query.filter_by(username=username).first()
     # loop through note records from pets table for current user
     for pet in user.pets:
         # get from api animal record(s) matching api_id in pets table
         URL = f"https://api.petfinder.com/v2/animals/{pet.api_id}"
         animal = get_API_response(URL)
         # place record in dictionary?
-        #!need to add not form db
+        #!need to add note form db
         petList.append(animal)
         # print(">>>>>>>>>>PL", petList[0]["animal"]["name"], flush=True)
 
