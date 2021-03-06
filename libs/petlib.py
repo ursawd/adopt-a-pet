@@ -52,18 +52,17 @@ def get_API_response(URL, params=None):
     headers = {
         "Authorization": f"Bearer {token['access_token']}",
     }
-
     # Request info from API
     if params == None:
-        r = requests.get(URL, headers=headers)
+        req = requests.get(URL, headers=headers)
     else:
-        r = requests.get(URL, headers=headers, params=params)
+        req = requests.get(URL, headers=headers, params=params)
 
     # check response for errors
-    if r.status_code != 200:
+    if req.status_code != 200:
         return None
     else:
-        return r.json()
+        return req.json()
 
 
 # -----------------------------------------------------------

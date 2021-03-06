@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Insert code block here -->
+<div class="container d-flex flex-row-reverse">
+    <p class="lead">
+        <a class="btn btn-info" href="/search" role="button">New Search</a>
+    </p>
+
+    <!-- <p class="lead">
+        <a class="btn btn-info mr-3" href="/shownotes" role="button"
+            >Show Pets With Notes</a
+        >
+    </p> -->
+</div>
+
+<!-- Start Loop -->
+<div id="container" class="container d-flex flex-row flex-wrap">
+    {% for pet in resp %} {{ pet.animal.contact.address }} {%endfor%}
+    <!-- End Loop -->
+</div>
+{% endblock content %}

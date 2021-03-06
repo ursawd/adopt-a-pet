@@ -175,10 +175,19 @@ def postnote():
 @app.route("/shownotes")
 def shownotes():
     """ display pet cards with user notes"""
+    petList = []
     # get username of current user
     username = session["username"]
     # get all matching records to user name out of pets table
     user = User.query.filter(username == username).first()
+    # loop through note records from pets table for current user
     for pet in user.pets:
-        print(">>>>>>>>>>", pet.api_id, flush=True)
-    return "", 204
+        # get from api animal record(s) matching api_id in pets table
+        URL = f"https://api.petfinder.com/v2/animals/{pet.api_id}"
+        animal = get_API_response(URL)
+        # place record in dictionary?
+        #!need to add not form db
+        petList.append(animal)
+        # print(">>>>>>>>>>PL", petList[0]["animal"]["name"], flush=True)
+
+    return render_template("/displaynotes.html", resp=petList)
