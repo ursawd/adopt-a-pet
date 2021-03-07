@@ -3,6 +3,7 @@ from models import db, connect_db, User, Pet
 from libs.petlib import get_API_response, get_random_pet
 from forms import RegisterForm, LoginForm, PetForm, SearchForm
 import requests, json, html
+from functools import wraps
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///adopt-a-pet"
@@ -118,6 +119,10 @@ def logout():
 def search():
     """Display search options"""
 
+    if "username" not in session:
+        flash("You must be logged in or registered")
+        return redirect("/")
+
     # create form
     form = SearchForm()
 
@@ -210,3 +215,22 @@ def delete_note(id):
 
 # ######################################################################
 #
+
+# decorator definition
+def testdec(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+
+        print(">>>>>>>>>>DEC", "TEST DEC", flush=True)
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
+# test route for decorator
+@app.route("/test")
+@testdec
+def test():
+    """TESTING"""
+    print(">>>>>>>>>>", "IN TEST ROUTE", flush=True)
+    return "TESTING ROUTE"

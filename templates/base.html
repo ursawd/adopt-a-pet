@@ -60,6 +60,15 @@
                 </div>
             </div>
         </div>
+        <div class="container">
+            {% with messages = get_flashed_messages() %} {% if messages %}
+            <ul class="text-dark alert-warning">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %} {% endwith %}
+        </div>
         {% block content %}
         <!-- Code from template files inserted here -->
 
