@@ -187,7 +187,7 @@ def shownotes():
         # get from api animal record(s) matching api_id in pets table
         URL = f"https://api.petfinder.com/v2/animals/{pet.api_id}"
         animal = get_API_response(URL)
-
+        # ! need to add check for missing animal (removed from API), remove from pets table
         # add note from db
         animal["eval"] = pet.peteval
 
@@ -195,3 +195,18 @@ def shownotes():
         petList.append(animal)  # access to petList => petList[0]["animal"]["name"]
 
     return render_template("/displaynotes.html", resp=petList)
+
+
+# ######################################################################
+#
+@app.route("/delete-note/<int:id>", methods=["GET"])
+def delete_note(id):
+    """ Delete note record from db"""
+    record = Pet.query.filter_by(api_id=id).first()
+    db.session.delete(record)
+    db.session.commit()
+    return redirect("/shownotes")
+
+
+# ######################################################################
+#
