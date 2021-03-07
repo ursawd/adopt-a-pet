@@ -4,6 +4,7 @@ from libs.petlib import get_API_response, get_random_pet
 from forms import RegisterForm, LoginForm, PetForm, SearchForm
 import requests, json, html
 from functools import wraps
+from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///adopt-a-pet"
@@ -20,10 +21,28 @@ app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 
 # ######################################################################
 #
+# decorator definition for logged in user
+def logincheck(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        # check if attribute username is in session, logged in user has
+        # their username value stored in session under key "username"
+        if "username" not in session:
+            flash("You must be logged in or registered")
+            return redirect("/")
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
+# ######################################################################
+#
 @app.route("/")
 def home():
-    # get random pet for pet to the day display
+    """home or index page"""
+    # get random pet for pet of the day display
     response = get_random_pet()
+    # store random pet object in session for latter use
     session["response"] = response
 
     return render_template("home.html", response=response)
@@ -74,7 +93,6 @@ def register():
         email = form.email.data
         first_name = form.first_name.data
         last_name = form.last_name.data
-        # ! check for username in database
         # generate hashed password with bcrypt
         # return User instance with just username and hashed password
         user = User.register(username, password)
@@ -85,7 +103,12 @@ def register():
 
         # add User instance to db
         db.session.add(user)
-        db.session.commit()
+
+        try:
+            db.session.commit()
+        except:
+            flash("Username already taken")
+            return redirect("/register")
 
         # store username in session data
         # check username and hashed password to see if in db
@@ -95,7 +118,7 @@ def register():
             session["username"] = user.username
 
         # provide user confirmation registration successful
-        flash(f" Added user {username}")  # todo not implemented yet
+        flash(f" Added user {username}")
         # redirect to protected page(s)
         return redirect("/search")
     else:  # if here: validation error or GET request
@@ -116,12 +139,13 @@ def logout():
 # ######################################################################
 #
 @app.route("/search", methods=["GET", "POST"])
+@logincheck
 def search():
     """Display search options"""
 
-    if "username" not in session:
-        flash("You must be logged in or registered")
-        return redirect("/")
+    # if "username" not in session:
+    #     flash("You must be logged in or registered")
+    #     return redirect("/")
 
     # create form
     form = SearchForm()
@@ -153,6 +177,7 @@ def search():
 # ######################################################################
 #
 @app.route("/postnote", methods=["POST"])
+@logincheck
 def postnote():
     """Add user note to db"""
     # try to get record matching pet apiid
@@ -180,6 +205,7 @@ def postnote():
 # ######################################################################
 #
 @app.route("/shownotes")
+@logincheck
 def shownotes():
     """ display pet cards with user notes"""
     petList = []
@@ -205,6 +231,7 @@ def shownotes():
 # ######################################################################
 #
 @app.route("/delete-note/<int:id>", methods=["GET"])
+@logincheck
 def delete_note(id):
     """ Delete note record from db"""
     record = Pet.query.filter_by(api_id=id).first()
@@ -215,22 +242,3 @@ def delete_note(id):
 
 # ######################################################################
 #
-
-# decorator definition
-def testdec(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-
-        print(">>>>>>>>>>DEC", "TEST DEC", flush=True)
-        return func(*args, **kwargs)
-
-    return wrapper
-
-
-# test route for decorator
-@app.route("/test")
-@testdec
-def test():
-    """TESTING"""
-    print(">>>>>>>>>>", "IN TEST ROUTE", flush=True)
-    return "TESTING ROUTE"
