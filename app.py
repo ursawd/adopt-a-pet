@@ -9,15 +9,15 @@ from sqlalchemy.exc import IntegrityError
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///adopt-a-pet"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_ECHO"] = True
+app.config["SQLALCHEMY_ECHO"] = False
 
 connect_db(app)
 
-from flask_debugtoolbar import DebugToolbarExtension
+# from flask_debugtoolbar import DebugToolbarExtension
 
 app.config["SECRET_KEY"] = "SECRET!"
-debug = DebugToolbarExtension(app)
-app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
+# debug = DebugToolbarExtension(app)
+# app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 
 # ######################################################################
 #
@@ -203,7 +203,9 @@ def postnote():
 
 
 # ######################################################################
-#
+# ! --Need to check of record found from api if pet removed
+# !   from the API data base. App will error when trying to retrieve
+# !   pet info to display w/ notes
 @app.route("/shownotes")
 @logincheck
 def shownotes():

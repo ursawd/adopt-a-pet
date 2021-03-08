@@ -28,8 +28,6 @@ db.session.commit()
 pet1 = Pet(
     username="username1",
     api_id=123,
-    petname="Spot",
-    petphoto="https://msn.com",
     peteval="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean quis orci eget neque tempor euismod non ut dui. Donec velit felis, auctor nec sapien ut, scelerisque congue dui.",
 )
 
