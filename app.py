@@ -170,8 +170,8 @@ def search():
         resp = get_API_response(url, params)
 
         return render_template("displaypets.html", resp=resp)
-
-    return render_template("search.html", response=session["response"], form=form)
+    response = get_random_pet()
+    return render_template("search.html", response=response, form=form)
 
 
 # ######################################################################
@@ -180,7 +180,7 @@ def search():
 @logincheck
 def postnote():
     """Add user note to db"""
-    # try to get record matching pet apiid
+    # try to get record matching pet apiid, request contains data sent with POST
     query_resp = Pet.query.filter(Pet.api_id == request.json["apiid"]).first()
 
     # if entry does not exist then query_resp = None, create / add record to db
@@ -203,9 +203,7 @@ def postnote():
 
 
 # ######################################################################
-# ! --Need to check of record found from api if pet removed
-# !   from the API data base. App will error when trying to retrieve
-# !   pet info to display w/ notes
+#
 @app.route("/shownotes")
 @logincheck
 def shownotes():
@@ -215,12 +213,27 @@ def shownotes():
     username = session["username"]
     # get all matching records to user name out of pets table
     user = User.query.filter_by(username=username).first()
+    if len(user.pets) == 0:
+        flash("No notes have been saved")
     # loop through note records from pets table for current user
     for pet in user.pets:
         # get from api animal record(s) matching api_id in pets table
         URL = f"https://api.petfinder.com/v2/animals/{pet.api_id}"
         animal = get_API_response(URL)
-        # ! need to add check for missing animal (removed from API), remove from pets table
+
+        # If animal not found by its api_id in the get_API_reponse function, None
+        # is returned. Most likely cause is pet no longer available for adoption and
+        # it has been removed from the aAPI database. Since these pet were being
+        # retrieved from the API because they were in the pets table along with their
+        # evaluation / note, they will be removed from the pets table
+        if animal is None:
+            flash("A pet is no longer available and has been removed")
+            db.session.delete(pet)
+            db.session.commit()
+            # Terminates this instance of the for loop, bypassing the
+            # the remainder of the functions code.
+            continue
+
         # add note from db
         animal["eval"] = pet.peteval
 

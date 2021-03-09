@@ -8,6 +8,7 @@ app.config["SQLALCHEMY_ECHO"] = False
 
 # Make Flask errors be real errors, rather than HTML pages with error info
 app.config["TESTING"] = True
+# Bypass WTForms CSRF enforcement which causes failed form vailidations
 app.config["WTF_CSRF_ENABLED"] = False
 
 db.drop_all()
@@ -19,6 +20,8 @@ class AdoptTests(TestCase):
 
     # -----------------------------------------
     def setUp(self):
+        """ Runs before each test"""
+        # Create a user in database
         user1 = User(
             username="username1",
             # hashed password for "password = 'password'"
@@ -30,7 +33,7 @@ class AdoptTests(TestCase):
 
         db.session.add(user1)
         db.session.commit()
-
+        # Create a entry in the pets table tied to username in users table
         pet1 = Pet(
             api_id="51234567",
             peteval="This is a pet eval",
@@ -42,6 +45,8 @@ class AdoptTests(TestCase):
 
     # -----------------------------------------
     def tearDown(self):
+        """Runs after each test
+        Deletes all records in users and pets tables"""
         Pet.query.delete()
         db.session.commit()
         User.query.delete()
@@ -49,7 +54,7 @@ class AdoptTests(TestCase):
 
     # -----------------------------------------
     def test_home_route(self):
-
+        """Tests home (index) route"""
         with app.test_client() as client:
             resp = client.get("/")
             html = resp.get_data(as_text=True)
@@ -59,16 +64,18 @@ class AdoptTests(TestCase):
 
     # -----------------------------------------
     def test_login_route(self):
-
+        """Tests login route passing in username adn password"""
         with app.test_client() as client:
             data = {"username": "username1", "password": "password"}
             resp = client.post("/login", data=data, follow_redirects=True)
             html = resp.get_data(as_text=True)
+
+            self.assertIn('<form class="mt-3" id="search-form" method="POST">', html)
             self.assertEqual(resp.status_code, 200)
 
     # -----------------------------------------
     def test_register_route(self):
-
+        """Tests registration creates new user"""
         with app.test_client() as client:
 
             data = {
@@ -80,12 +87,66 @@ class AdoptTests(TestCase):
             }
 
             resp = client.post("/register", data=data, follow_redirects=True)
+            html = resp.get_data(as_text=True)
+            self.assertIn('<form class="mt-3" id="search-form" method="POST">', html)
+            self.assertEqual(resp.status_code, 200)
 
-            try:
-                pet = Pet.query.filter(Pet.api_id == "51234567").one()
-                self.assertTrue(True)
-            except:
-                self.assertTrue(False)
-                self.assertEqual("username2", pet.username)
+    # -----------------------------------------
+    def test_logout_route(self):
+        """Tests logout route"""
+        with app.test_client() as client:
+            resp = client.get("/logout", follow_redirects=True)
+            html = resp.get_data(as_text=True)
+            self.assertIn("li>You must Register / Login to display pets.</li>", html)
+            self.assertEqual(resp.status_code, 200)
+
+    # -----------------------------------------
+    def test_search_route(self):
+        """Tests search route"""
+        with app.test_client() as client:
+
+            data = {
+                "type": "dog",
+                "gender": "male",
+                "distance": 50,
+                "location": 32162,
+            }
+
+            resp = client.post("/search", data=data, follow_redirects=True)
+            html = resp.get_data(as_text=True)
+
+            self.assertIn("li>You must Register / Login to display pets.</li>", html)
+            self.assertEqual(resp.status_code, 200)
+
+    # -----------------------------------------
+    def test_postnote_route(self):
+        """Tests postnote route"""
+        with app.test_client() as client:
+
+            data = {
+                "note": "This is a pet note",
+                "api-id": "51234567",
+            }
+
+            resp = client.post("/postnote", data=data)
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+
+    # -----------------------------------------
+    def test_shownotes_route(self):
+        """Tests shownotes route"""
+        with app.test_client() as client:
+            with client.session_transaction() as sess:
+                sess["username"] = "username1"
+
+            resp = client.get("/shownotes")
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+
+    # -----------------------------------------
+    def test_deletenotes_route(self):
+        """Tests delete-notes route"""
+        with app.test_client() as client:
+            resp = client.get("/delete-note/51234567", follow_redirects=True)
             html = resp.get_data(as_text=True)
             self.assertEqual(resp.status_code, 200)

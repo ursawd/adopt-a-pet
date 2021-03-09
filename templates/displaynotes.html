@@ -5,12 +5,6 @@
         <a class="btn btn-info" href="/search" role="button">New Search</a>
     </p>
     <h3>Pets with notes</h3>
-
-    <!-- <p class="lead">
-        <a class="btn btn-info mr-3" href="/shownotes" role="button"
-            >Show Pets With Notes</a
-        >
-    </p> -->
 </div>
 
 <!-- Start Loop -->
@@ -20,11 +14,21 @@
     <div class="col-md-4 col-sm-6 my-4">
         <!-- pet card definition -->
         <div class="card w-100" mb-5>
+            <!-- ! -->
+            {% if pet.animal['photos']|length>0 %}
             <img
                 class="card-img-top"
                 src="{{pet.animal['photos'][0]['large']}}"
                 alt="Card image cap"
             />
+            {%else%}
+            <img
+                class="card-img-top"
+                src="/static/imgs/avatar.jpg"
+                alt="Card image cap"
+            />
+            {% endif %}
+            <!-- ! -->
 
             <div class="card-body">
                 <h5 class="card-title">{{pet.animal['name']}}</h5>

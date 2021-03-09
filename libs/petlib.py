@@ -1,5 +1,6 @@
 import requests, json, html
 from random import randint
+from flask import flash, redirect
 
 # ###########################################################################
 #
@@ -60,6 +61,7 @@ def get_API_response(URL, params=None):
 
     # check response for errors
     if req.status_code != 200:
+        print(">>>>>>>>>>", req, req.status_code, flush=True)
         return None
     else:
         return req.json()
@@ -82,27 +84,40 @@ def get_API_response(URL, params=None):
 #
 def get_random_pet():
     """Return response object of one random pet from API"""
-    while True:
-        id = randint(50000000, 51000000)  # estimated range for pet id's
-        # URL = f"https://api.petfinder.com/v2/animals/50703302"
-        URL = f"https://api.petfinder.com/v2/animals/{id}"
-        response = get_API_response(URL)
 
-        if response != None:
-            # "description" contains html entities such as &amp#39; (')
-            # this changes them to display proper character
-            if response["animal"]["description"] is not None:
-                response["animal"]["description"] = html.unescape(response["animal"]["description"])
-                org_web_site = get_org(response)
-                response["animal"]["website"] = org_web_site
+    # get 'page' (100) of all pets -or- less if fewer records match
+    params = (("limit", "100"),)
+
+    URL = "https://api.petfinder.com/v2/animals/"
+    response = get_API_response(URL, params)
+    for i in range(1, 99):
+        rndNum = randint(1, 99)
+        try:
+            response = response["animals"][rndNum]
+        except:
+            continue
+        if len(response["photos"]) != 0:
             break
+    if response != None:
+        # "description" contains html entities such as &amp#39; (')
+        # this changes them to display proper character
+        if response["description"] is not None:
+            response["description"] = html.unescape(response["description"])
+            org_web_site = get_org(response)
+            response["website"] = org_web_site
+    else:
+        flash("Problem with external pets database. Try again later")
+        return redirect("/")
     return response
+
+
+# -------------------------------
 
 
 # ###########################################################################
 #
 def get_org(resp):
-    org_string = resp["animal"]["_links"]["organization"]["href"]
+    org_string = resp["_links"]["organization"]["href"]
     URL = f"https://api.petfinder.com{org_string}"
 
     # get specific organization info

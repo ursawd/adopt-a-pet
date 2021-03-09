@@ -7,34 +7,41 @@
         <h3>Featured Pet!</h3>
         <!-- pet card definition -->
         <div class="card w-75">
+            <!-- ! -->
+            {% if response['photos']|length>0 %}
             <img
                 class="card-img-top"
-                src="{{response['animal']['photos'][0]['large']}}"
+                src="{{response['photos'][0]['large']}}"
                 alt="Card image cap"
             />
+            {%else%}
+            <img
+                class="card-img-top"
+                src="/static/imgs/avatar.jpg"
+                alt="Card image cap"
+            />
+            {% endif %}
+            <!-- ! -->
+
             <div class="card-body">
-                <h5 class="card-title">{{response['animal']['name']}}</h5>
-                <p class="card-text">{{response['animal']['description']}}</p>
+                <h5 class="card-title">{{response['name']}}</h5>
+                <p class="card-text">{{response['description']}}</p>
             </div>
             <ul class="list-group list-group-flush">
+                <li class="list-group-item p-1">{{response['age']}}</li>
+                <li class="list-group-item p-1">{{response['gender']}}</li>
                 <li class="list-group-item p-1">
-                    {{response['animal']['age']}}
-                </li>
-                <li class="list-group-item p-1">
-                    {{response['animal']['gender']}}
-                </li>
-                <li class="list-group-item p-1">
-                    {{response['animal']['breeds']['primary']}}
+                    {{response['breeds']['primary']}}
                 </li>
 
                 <li class="list-group-item p-1">
-                    {{response["animal"]["contact"]["address"]["city"]}},
-                    {{response["animal"]["contact"]["address"]["state"]}}
+                    {{response["contact"]["address"]["city"]}},
+                    {{response["contact"]["address"]["state"]}}
                 </li>
             </ul>
             <div class="card-body">
                 <a
-                    href="{{response['animal']['website']}}"
+                    href="{{response['website']}}"
                     target="_blank"
                     class="card-link"
                     >Adoption Info</a
@@ -63,9 +70,10 @@
             <iframe
                 width="470"
                 height="365"
-                src="https://www.youtube.com/embed/mAVFwQUH8BU"
+                src="https://www.youtube.com/embed/Tzr4oiLIU5g"
             >
             </iframe>
+            <!-- src="https://www.youtube.com/embed/mAVFwQUH8BU" -->
         </div>
     </div>
 </div>

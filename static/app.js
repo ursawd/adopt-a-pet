@@ -22,7 +22,6 @@ async function saveNote(note, apiid) {
         .catch((error) => {
             console.log("error", error);
         });
-
     // response.status should be 204 no content
     return;
 }

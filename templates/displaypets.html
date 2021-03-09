@@ -1,15 +1,18 @@
 {% extends 'base.html' %} {% block content %}
 <!-- Insert code block here -->
-<div class="container d-flex flex-row-reverse">
-    <p class="lead">
-        <a class="btn btn-info" href="/search" role="button">New Search</a>
-    </p>
+<div class="container d-flex flex-row-reverse justify-content-between">
+    <div class="d-flex">
+        <p class="lead mr-5">
+            <a class="btn btn-info" href="/search" role="button">New Search</a>
+        </p>
 
-    <p class="lead">
-        <a class="btn btn-info mr-3" href="/shownotes" role="button"
-            >Show Pets With Notes</a
-        >
-    </p>
+        <p class="lead">
+            <a class="btn btn-info mr-3" href="/shownotes" role="button"
+                >Show Pets With Notes</a
+            >
+        </p>
+    </div>
+    <h3>Search Results</h3>
 </div>
 
 <!-- Start Loop -->
@@ -19,11 +22,21 @@
     <div class="col-md-4 col-sm-6 my-4">
         <!-- pet card definition -->
         <div class="card w-100">
+            <!-- ! -->
+            {% if animal['photos']|length>0 %}
             <img
                 class="card-img-top"
                 src="{{animal['photos'][0]['large']}}"
                 alt="Card image cap"
             />
+            {%else%}
+            <img
+                class="card-img-top"
+                src="/static/imgs/avatar.jpg"
+                alt="Card image cap"
+            />
+            {% endif %}
+            <!-- ! -->
 
             <div class="card-body">
                 <h5 class="card-title">{{animal['name']}}</h5>
