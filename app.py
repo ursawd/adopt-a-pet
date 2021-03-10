@@ -1,6 +1,6 @@
 from flask import Flask, request, redirect, render_template, flash, session
 from models import db, connect_db, User, Pet
-from libs.petlib import get_API_response, get_random_pet
+from libs.petlib import get_API_response, get_random_pet, get_org
 from forms import RegisterForm, LoginForm, PetForm, SearchForm
 import requests, json, html
 from functools import wraps
@@ -68,6 +68,7 @@ def user_login():
         else:
             # inform user of bad input
             form.username.errors = ["Invalid username / password"]
+            flash("Invalid username / password")
     # here if either GET route or bad input to login form
     return render_template("login.html", form=form)
 
@@ -129,7 +130,6 @@ def logout():
     """Log out user"""
     if "username" in session:
         session.pop("username")
-        session.pop("response")
     return redirect("/")
 
 

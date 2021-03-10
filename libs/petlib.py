@@ -95,10 +95,14 @@ def get_random_pet():
     try:
         petOfDay = response["animals"][rndNum]
     except:
-        pass
+        flash("Random pet error: API Error. Contact Support / Try again later")
+        return redirect("/")
 
     if len(petOfDay["photos"]) == 0:
-        petOfDay["photos"] = [{"large": "/static/imgs/group-pets-dog-cat-bird-reptile-rabbit-8718081.jpg"}]
+        petOfDay["photos"] = [{"large": "/static/imgs/avatar.jpg"}]
+
+    org_web_site = get_org(petOfDay)
+    petOfDay["website"] = org_web_site
     return petOfDay
 
 
@@ -109,13 +113,6 @@ def get_random_pet():
 #         petOfDay["description"] = html.unescape(petOfDay["description"])
 #         org_web_site = get_org(petOfDay)
 #         petOfDay["website"] = org_web_site
-# else:
-#     flash("Problem with external pets database. Try again later")
-#     return redirect("/")
-
-
-# -------------------------------
-
 
 # ###########################################################################
 #
