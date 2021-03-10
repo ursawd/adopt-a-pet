@@ -1,6 +1,6 @@
 from flask import Flask, request, redirect, render_template, flash, session
 from models import db, connect_db, User, Pet
-from libs.petlib import get_API_response, get_random_pet, get_org
+from libs.petlib import get_API_response, get_random_pet, get_org, fix_web_desc
 from forms import RegisterForm, LoginForm, PetForm, SearchForm
 import requests, json, html
 from functools import wraps

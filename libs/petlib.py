@@ -90,29 +90,43 @@ def get_random_pet():
     URL = "https://api.petfinder.com/v2/animals/"
     response = get_API_response(URL, params)
 
+    # Select one random record for Pet Of The Day
     rndNum = randint(10, 99)
-
     try:
         petOfDay = response["animals"][rndNum]
     except:
         flash("Random pet error: API Error. Contact Support / Try again later")
         return redirect("/")
 
+    # Insert Photo Not Found picture if none supplied by API
     if len(petOfDay["photos"]) == 0:
         petOfDay["photos"] = [{"large": "/static/imgs/avatar.jpg"}]
 
-    org_web_site = get_org(petOfDay)
-    petOfDay["website"] = org_web_site
+    # Get organizations website and remove html characters
+    fix_web_desc(petOfDay)
+
     return petOfDay
 
 
-# if petOfDay != None:
-#     # "description" contains html entities such as &amp#39; (')
-#     # this changes them to display proper character
-#     if petOfDay["description"] is not None:
-#         petOfDay["description"] = html.unescape(petOfDay["description"])
-#         org_web_site = get_org(petOfDay)
-#         petOfDay["website"] = org_web_site
+# ###########################################################################
+#
+def fix_web_desc(petOfDay):
+    """Return organizations website if they have one other wise pet finders
+    entry and remove html entities and characters from description."""
+
+    petOfDay["website"] = get_org(petOfDay)
+
+    # 'description often contains html characters like:
+    #       If you&amp;#39;ve been looking for Petey from...
+    # The first pass through unescape converts &amp; to & which
+    # is used in &#39; (an '). The 2nd pass through unescape converts
+    # the &#39; to the '.
+    if petOfDay["description"] is not None:
+        petOfDay["description"] = html.unescape(petOfDay["description"])
+        petOfDay["description"] = html.unescape(petOfDay["description"])
+
+    return petOfDay
+
 
 # ###########################################################################
 #
