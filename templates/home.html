@@ -3,26 +3,14 @@
 <div id="container" class="container d-flex">
     <!-- Left column - Pet of the day -->
     <div class="col-6">
-        <a href="/search" class="btn">Search</a>
         <h3>Featured Pet!</h3>
         <!-- pet card definition -->
         <div class="card w-75">
-            <!-- ! -->
-            {% if response['photos']|length>0 %}
             <img
                 class="card-img-top"
                 src="{{response['photos'][0]['large']}}"
                 alt="Card image cap"
             />
-            {%else%}
-            <img
-                class="card-img-top"
-                src="/static/imgs/avatar.jpg"
-                alt="Card image cap"
-            />
-            {% endif %}
-            <!-- ! -->
-
             <div class="card-body">
                 <h5 class="card-title">{{response['name']}}</h5>
                 <p class="card-text">{{response['description']}}</p>

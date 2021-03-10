@@ -64,7 +64,7 @@ class AdoptTests(TestCase):
 
     # -----------------------------------------
     def test_login_route(self):
-        """Tests login route passing in username adn password"""
+        """Tests login route passing in username and password"""
         with app.test_client() as client:
             data = {"username": "username1", "password": "password"}
             resp = client.post("/login", data=data, follow_redirects=True)
@@ -104,6 +104,8 @@ class AdoptTests(TestCase):
     def test_search_route(self):
         """Tests search route"""
         with app.test_client() as client:
+            with client.session_transaction() as sess:
+                sess["username"] = "username1"
 
             data = {
                 "type": "dog",
@@ -115,22 +117,30 @@ class AdoptTests(TestCase):
             resp = client.post("/search", data=data, follow_redirects=True)
             html = resp.get_data(as_text=True)
 
-            self.assertIn("li>You must Register / Login to display pets.</li>", html)
+            self.assertIn("<h3>Search for a pet</h3>", html)
             self.assertEqual(resp.status_code, 200)
 
     # -----------------------------------------
     def test_postnote_route(self):
         """Tests postnote route"""
         with app.test_client() as client:
+            with client.session_transaction() as sess:
+                sess["username"] = "username1"
 
             data = {
                 "note": "This is a pet note",
-                "api-id": "51234567",
+                "apiid": "51234567",
             }
 
-            resp = client.post("/postnote", data=data)
-            html = resp.get_data(as_text=True)
-            self.assertEqual(resp.status_code, 200)
+            resp = client.post("/postnote", json=data)
+
+            # pets.apiid value should change from "This is a pet eval" to
+            # "This is a pet note" for route to be successful
+            noteField = Pet.query.first()
+
+            self.assertEqual(noteField.peteval, "This is a pet note")
+            # show return 204 No Content due to only a table update
+            self.assertEqual(resp.status_code, 204)
 
     # -----------------------------------------
     def test_shownotes_route(self):
@@ -138,15 +148,25 @@ class AdoptTests(TestCase):
         with app.test_client() as client:
             with client.session_transaction() as sess:
                 sess["username"] = "username1"
-
             resp = client.get("/shownotes")
             html = resp.get_data(as_text=True)
+            self.assertIn("<li>A pet is no longer available and has been removed</li>", html)
             self.assertEqual(resp.status_code, 200)
 
     # -----------------------------------------
     def test_deletenotes_route(self):
-        """Tests delete-notes route"""
+        """Tests delete-notes route:
+        deletes only record from pets table, checks if record deleted,
+        checks if redirection worked
+        """
         with app.test_client() as client:
+            # creates client instance of session object
+            # note following indention
+            with client.session_transaction() as sess:
+                sess["username"] = "username1"
             resp = client.get("/delete-note/51234567", follow_redirects=True)
-            html = resp.get_data(as_text=True)
+            # get pet record, returns None if delete
+            record_exists = Pet.query.first()
+            # record deleted
+            self.assertIsNone(record_exists)
             self.assertEqual(resp.status_code, 200)

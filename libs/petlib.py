@@ -86,29 +86,32 @@ def get_random_pet():
     """Return response object of one random pet from API"""
 
     # get 'page' (100) of all pets -or- less if fewer records match
-    params = (("limit", "100"),)
-
+    params = (("limit", "100"), ("location", "42086"), ("distance", "500"))
     URL = "https://api.petfinder.com/v2/animals/"
     response = get_API_response(URL, params)
-    for i in range(1, 99):
-        rndNum = randint(1, 99)
-        try:
-            response = response["animals"][rndNum]
-        except:
-            continue
-        if len(response["photos"]) != 0:
-            break
-    if response != None:
-        # "description" contains html entities such as &amp#39; (')
-        # this changes them to display proper character
-        if response["description"] is not None:
-            response["description"] = html.unescape(response["description"])
-            org_web_site = get_org(response)
-            response["website"] = org_web_site
-    else:
-        flash("Problem with external pets database. Try again later")
-        return redirect("/")
-    return response
+
+    rndNum = randint(10, 99)
+
+    try:
+        petOfDay = response["animals"][rndNum]
+    except:
+        pass
+
+    if len(petOfDay["photos"]) == 0:
+        petOfDay["photos"] = [{"large": "/static/imgs/group-pets-dog-cat-bird-reptile-rabbit-8718081.jpg"}]
+    return petOfDay
+
+
+# if petOfDay != None:
+#     # "description" contains html entities such as &amp#39; (')
+#     # this changes them to display proper character
+#     if petOfDay["description"] is not None:
+#         petOfDay["description"] = html.unescape(petOfDay["description"])
+#         org_web_site = get_org(petOfDay)
+#         petOfDay["website"] = org_web_site
+# else:
+#     flash("Problem with external pets database. Try again later")
+#     return redirect("/")
 
 
 # -------------------------------

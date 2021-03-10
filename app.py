@@ -17,7 +17,7 @@ connect_db(app)
 
 app.config["SECRET_KEY"] = "SECRET!"
 # debug = DebugToolbarExtension(app)
-# app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
+app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 
 # ######################################################################
 #
@@ -41,11 +41,8 @@ def logincheck(func):
 def home():
     """home or index page"""
     # get random pet for pet of the day display
-    response = get_random_pet()
-    # store random pet object in session for latter use
-    session["response"] = response
-
-    return render_template("home.html", response=response)
+    petOfDay = get_random_pet()
+    return render_template("home.html", response=petOfDay)
 
 
 # ######################################################################
