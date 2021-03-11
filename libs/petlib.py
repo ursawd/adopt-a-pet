@@ -104,18 +104,19 @@ def get_random_pet():
     URL = "https://api.petfinder.com/v2/animals/"
     response = get_API_response(URL, params)
 
-    # Select one random record for Pet Of The Day
-    rndNum = randint(10, 99)
-    try:
-        petOfDay = response["animals"][rndNum]
-    except:
-        flash("Random pet error: API Error. Contact Support / Try again later")
-        return redirect("/")
-    #!
-    # Insert Photo Not Found picture if none supplied by API
-    if len(petOfDay["photos"]) == 0:
-        petOfDay["photos"] = [{"large": "/static/imgs/avatar.jpg"}]
-    #!
+    # ***** start loop to select random pet WITH photo
+    while True:
+        # Select one random record for Pet Of The Day
+        rndNum = randint(10, 99)
+        try:
+            petOfDay = response["animals"][rndNum]
+        except:
+            flash("Random pet error: API Error. Contact Support / Try again later")
+            return redirect("/")
+        if len(petOfDay["photos"]) != 0:
+            break
+    # ***** end loop
+
     # Get organizations website and remove html characters
     fix_web_desc(petOfDay)
 
