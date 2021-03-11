@@ -4,20 +4,23 @@ from flask import Flask, request, redirect, render_template, flash, session
 from models import db, connect_db, User, Pet
 from libs.petlib import get_API_response, get_random_pet, get_org, fix_web_desc
 from forms import RegisterForm, LoginForm, PetForm, SearchForm
-import requests, json, html
+import requests, json, html, os
 from functools import wraps
 from sqlalchemy.exc import IntegrityError
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///adopt-a-pet"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///adopt-a-pet"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = False
+# app.config["SECRET_KEY"] = "SECRET!"
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
+app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 
 connect_db(app)
-
-
-app.config["SECRET_KEY"] = "SECRET!"
-app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 
 # ######################################################################
 #

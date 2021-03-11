@@ -113,6 +113,7 @@ def get_random_pet():
         except:
             flash("Random pet error: API Error. Contact Support / Try again later")
             return redirect("/")
+        # check if pet has a photo
         if len(petOfDay["photos"]) != 0:
             break
     # ***** end loop
