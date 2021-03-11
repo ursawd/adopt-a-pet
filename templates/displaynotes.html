@@ -15,10 +15,10 @@
         <!-- pet card definition -->
         <div class="card w-100" mb-5>
             <!-- ! -->
-            {% if pet.animal['photos']|length>0 %}
+            {% if pet['photos']|length>0 %}
             <img
                 class="card-img-top"
-                src="{{pet.animal['photos'][0]['large']}}"
+                src="{{pet['photos'][0]['large']}}"
                 alt="Card image cap"
             />
             {%else%}
@@ -31,24 +31,24 @@
             <!-- ! -->
 
             <div class="card-body">
-                <h5 class="card-title">{{pet.animal['name']}}</h5>
-                <p class="card-text">{{pet.animal['description']}}</p>
+                <h5 class="card-title">{{pet['name']}}</h5>
+                <p class="card-text">{{pet['description']}}</p>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item p-1">{{pet.animal['age']}}</li>
-                <li class="list-group-item p-1">{{pet.animal['gender']}}</li>
+                <li class="list-group-item p-1">{{pet['age']}}</li>
+                <li class="list-group-item p-1">{{pet['gender']}}</li>
                 <li class="list-group-item p-1">
-                    {{pet.animal['breeds']['primary']}}
+                    {{pet['breeds']['primary']}}
                 </li>
 
                 <li class="list-group-item p-1">
-                    {{pet.animal["contact"]["address"]["city"]}},
-                    {{pet.animal["contact"]["address"]["state"]}}
+                    {{pet["contact"]["address"]["city"]}},
+                    {{pet["contact"]["address"]["state"]}}
                 </li>
             </ul>
             <textarea
                 name=""
-                id="{{pet.animal['id']}}"
+                id="{{pet['id']}}"
                 cols="30"
                 rows="2"
                 class="form-control"
@@ -65,19 +65,16 @@
             <div id="message-wrap"></div>
             <!--  -->
             <div class="card-body">
-                <a
-                    href="{{pet.animal['url']}}"
-                    target="_blank"
-                    class="card-link"
+                <a href="{{pet['website']}}" target="_blank" class="card-link"
                     >Adoption Info</a
                 >
                 <a
-                    id="petnote{{pet.animal['id']}}"
-                    data-id="{{pet.animal['id']}}"
+                    id="petnote{{pet['id']}}"
+                    data-id="{{pet['id']}}"
                     class="card-link note-link"
                     >Save Note</a
                 >
-                <a href="/delete-note/{{pet.animal['id']}}"
+                <a href="/delete-note/{{pet['id']}}"
                     ><i class="fas fa-trash ml-5"></i
                 ></a>
             </div>

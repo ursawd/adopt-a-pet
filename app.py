@@ -165,6 +165,11 @@ def search():
         # petfinder api search request
         url = "https://api.petfinder.com/v2/animals"
         resp = get_API_response(url, params)
+        # todo Adding check of each record for organizations website and removal
+        # todo of htlml characters from the description
+        for pet in resp["animals"]:
+            pet = fix_web_desc(pet)
+        # todo ----END---
 
         return render_template("displaypets.html", resp=resp)
     response = get_random_pet()
@@ -232,8 +237,13 @@ def shownotes():
             continue
 
         # add note from db
+
+        # todo
+        animal = animal["animal"]
+        animal = fix_web_desc(animal)
         animal["eval"] = pet.peteval
 
+        # todo
         # place record in list
         petList.append(animal)  # access to petList => petList[0]["animal"]["name"]
 

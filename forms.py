@@ -24,4 +24,4 @@ class SearchForm(FlaskForm):
     pettype = SelectField(u"Pet Type", choices=[("Dog", "Dog"), ("Cat", "Cat"), ("Bird", "Bird"), ("Rabbit", "Rabbit")])
     gender = SelectField(u"Gender", choices=[("Male", "Male"), ("Female", "Female")])
     distance = SelectField(u"Distance", choices=[("25", "25"), ("50", "50"), ("75", "75"), ("100", "100")])
-    location = StringField("Your Zip Code", validators=[InputRequired()])
+    location = StringField("Your Zip Code (Required)", validators=[InputRequired()])
