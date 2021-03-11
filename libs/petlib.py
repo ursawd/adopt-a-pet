@@ -1,3 +1,17 @@
+# Helpers library
+###########################################################################
+# def get_token():
+# Gets access token from API
+# def get_API_response(URL, params=None):
+# Retrieve all data from API for pets
+# def get_random_pet():
+# Retrieves a single random animal
+# def fix_web_desc(petOfDay):
+# Check websites and descriptions of an animal
+# def get_org(resp):
+# Retrieves info about an organization from the API
+###########################################################################
+#
 import requests, json, html
 from random import randint
 from flask import flash, redirect
@@ -131,6 +145,8 @@ def fix_web_desc(petOfDay):
 # ###########################################################################
 #
 def get_org(resp):
+    """Gets info about organization holding animal"""
+
     org_string = resp["_links"]["organization"]["href"]
     URL = f"https://api.petfinder.com{org_string}"
 
@@ -141,24 +157,3 @@ def get_org(resp):
         return response["organization"]["url"]
     else:
         return response["organization"]["website"]
-
-
-# ###########################################################################
-#
-# def get_random_pet():
-#     """Return response object of one random pet from API"""
-#     while True:
-#         id = randint(50000000, 51000000)  # estimated range for pet id's
-#         # URL = f"https://api.petfinder.com/v2/animals/50703302"
-#         URL = f"https://api.petfinder.com/v2/animals/{id}"
-#         response = get_API_response(URL)
-
-#         if response != None:
-#             # "description" contains html entities such as &amp#39; (')
-#             # this changes them to display proper character
-#             if response["animal"]["description"] is not None:
-#                 response["animal"]["description"] = html.unescape(response["animal"]["description"])
-#                 org_web_site = get_org(response)
-#                 response["animal"]["website"] = org_web_site
-#             break
-#     return response

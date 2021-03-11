@@ -6,7 +6,6 @@
         <h3>Featured Pet!</h3>
         <!-- pet card definition -->
         <div class="card w-75">
-            <!-- ! -->
             {% if response['photos']|length>0 %}
             <img
                 class="card-img-top"
@@ -20,7 +19,6 @@
                 alt="Card image cap"
             />
             {% endif %}
-            <!-- ! -->
             <div class="card-body">
                 <h5 class="card-title">{{response['name']}}</h5>
                 <p class="card-text">{{response['description']}}</p>

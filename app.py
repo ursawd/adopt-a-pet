@@ -1,3 +1,5 @@
+# ADOPT-A-PET
+# ############################################################################
 from flask import Flask, request, redirect, render_template, flash, session
 from models import db, connect_db, User, Pet
 from libs.petlib import get_API_response, get_random_pet, get_org, fix_web_desc
@@ -13,11 +15,9 @@ app.config["SQLALCHEMY_ECHO"] = False
 
 connect_db(app)
 
-# from flask_debugtoolbar import DebugToolbarExtension
 
 app.config["SECRET_KEY"] = "SECRET!"
-# debug = DebugToolbarExtension(app)
-app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
+xapp.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 
 # ######################################################################
 #
@@ -165,12 +165,9 @@ def search():
         # petfinder api search request
         url = "https://api.petfinder.com/v2/animals"
         resp = get_API_response(url, params)
-        # todo Adding check of each record for organizations website and removal
-        # todo of htlml characters from the description
         for pet in resp["animals"]:
             pet = fix_web_desc(pet)
-        # todo ----END---
-
+x
         return render_template("displaypets.html", resp=resp)
     response = get_random_pet()
     return render_template("search.html", response=response, form=form)
@@ -238,12 +235,10 @@ def shownotes():
 
         # add note from db
 
-        # todo
         animal = animal["animal"]
         animal = fix_web_desc(animal)
         animal["eval"] = pet.peteval
 
-        # todo
         # place record in list
         petList.append(animal)  # access to petList => petList[0]["animal"]["name"]
 

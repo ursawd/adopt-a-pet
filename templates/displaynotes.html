@@ -14,7 +14,6 @@
     <div class="col-md-4 col-sm-6 my-4">
         <!-- pet card definition -->
         <div class="card w-100" mb-5>
-            <!-- ! -->
             {% if pet['photos']|length>0 %}
             <img
                 class="card-img-top"
@@ -28,8 +27,6 @@
                 alt="Card image cap"
             />
             {% endif %}
-            <!-- ! -->
-
             <div class="card-body">
                 <h5 class="card-title">{{pet['name']}}</h5>
                 <p class="card-text">{{pet['description']}}</p>
