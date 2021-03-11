@@ -111,11 +111,11 @@ def get_random_pet():
     except:
         flash("Random pet error: API Error. Contact Support / Try again later")
         return redirect("/")
-
+    #!
     # Insert Photo Not Found picture if none supplied by API
     if len(petOfDay["photos"]) == 0:
         petOfDay["photos"] = [{"large": "/static/imgs/avatar.jpg"}]
-
+    #!
     # Get organizations website and remove html characters
     fix_web_desc(petOfDay)
 

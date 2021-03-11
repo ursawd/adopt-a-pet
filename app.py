@@ -17,7 +17,7 @@ connect_db(app)
 
 
 app.config["SECRET_KEY"] = "SECRET!"
-xapp.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
+app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 
 # ######################################################################
 #
@@ -167,7 +167,7 @@ def search():
         resp = get_API_response(url, params)
         for pet in resp["animals"]:
             pet = fix_web_desc(pet)
-x
+
         return render_template("displaypets.html", resp=resp)
     response = get_random_pet()
     return render_template("search.html", response=response, form=form)
