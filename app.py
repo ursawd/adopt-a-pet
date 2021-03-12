@@ -164,6 +164,7 @@ def search():
             ("gender", gender),
             ("distance", distance),
             ("location", location),
+            ("limit", "36"),
         )
         # petfinder api search request
         url = "https://api.petfinder.com/v2/animals"
